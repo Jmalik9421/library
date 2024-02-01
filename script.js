@@ -24,15 +24,41 @@ function addBookToLibrary() {
 }
 
 function displayLibrary() {
+    // clear booklist 
     bookList.innerHTML = '';
 
-    const ul = document.createElement('ul');
-    bookList.appendChild(ul);
+    // create table in dom
+    const table = document.createElement('table');
+    const trHead = document.createElement('tr');
 
+    const titleHead = document.createElement('th');
+    titleHead.textContent = 'Title';
+    const authorHead = document.createElement('th');
+    authorHead.textContent = 'Author';
+    const pagesHead = document.createElement('th');
+    pagesHead.textContent = 'Pages';
+
+    trHead.appendChild(titleHead);
+    trHead.appendChild(authorHead);
+    trHead.appendChild(pagesHead);
+    table.appendChild(trHead);
+    bookList.appendChild(table);
+
+    // loop through each book object in library
     myLibrary.forEach(book => {
-        const li = document.createElement('li');
-        li.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
-        ul.appendChild(li);        
+        const tr = document.createElement('tr');
+
+        const title = document.createElement('th');
+        title.textContent = `${book.title}`;
+        const author = document.createElement('th');
+        author.textContent = `${book.author}`;
+        const pages = document.createElement('th');
+        pages.textContent = `${book.pages}`;
+
+        tr.appendChild(title);
+        tr.appendChild(author);
+        tr.appendChild(pages);
+        table.appendChild(tr);
     });
 }
 

@@ -1,13 +1,11 @@
 const myLibrary = [];
 const bookList = document.querySelector('#book-list');
 
-function Book(title, author, pages) {
+function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.info = () => {
-        return `${title} by ${author}, ${pages} pages`;
-    };
+    this.read = read;
 };
 
 function addBookToLibrary() {
@@ -17,8 +15,9 @@ function addBookToLibrary() {
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#author').value;
     const pages = document.querySelector('#pages').value;
+    const read = document.querySelector('#read').checked;
 
-    const newBook = new Book(title, author, pages);
+    const newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
     
 }
@@ -37,10 +36,16 @@ function displayLibrary() {
     authorHead.textContent = 'Author';
     const pagesHead = document.createElement('th');
     pagesHead.textContent = 'Pages';
+    const readHead = document.createElement('th');
+    readHead.textContent = 'Read';
+    const deleteHead = document.createElement('th');
+    deleteHead.textContent = 'Delete';
 
     trHead.appendChild(titleHead);
     trHead.appendChild(authorHead);
     trHead.appendChild(pagesHead);
+    trHead.appendChild(readHead);
+    trHead.appendChild(deleteHead);
     table.appendChild(trHead);
     bookList.appendChild(table);
 
@@ -48,16 +53,25 @@ function displayLibrary() {
     myLibrary.forEach(book => {
         const tr = document.createElement('tr');
 
-        const title = document.createElement('th');
+        const title = document.createElement('td');
         title.textContent = `${book.title}`;
-        const author = document.createElement('th');
+        const author = document.createElement('td');
         author.textContent = `${book.author}`;
-        const pages = document.createElement('th');
+        const pages = document.createElement('td');
         pages.textContent = `${book.pages}`;
+        const read = document.createElement('td')
+        read.textContent = `${book.read}`;
+        const deleteBody = document.createElement('td');
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = `delete`;
+
+        deleteBody.appendChild(deleteBtn);
 
         tr.appendChild(title);
         tr.appendChild(author);
         tr.appendChild(pages);
+        tr.appendChild(read);
+        tr.appendChild(deleteBody);
         table.appendChild(tr);
     });
 }

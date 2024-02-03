@@ -44,7 +44,7 @@ function displayLibrary() {
     table.appendChild(trHead);
     bookList.appendChild(table);
 
-    myLibrary.forEach(book => {
+    myLibrary.forEach((book, index) => {
         const tr = document.createElement('tr');
 
         const title = document.createElement('td');
@@ -53,10 +53,26 @@ function displayLibrary() {
         author.textContent = `${book.author}`;
         const pages = document.createElement('td');
         pages.textContent = `${book.pages}`;
+
         const read = document.createElement('td')
-        read.textContent = `${book.read}`;
+        const readBtn = document.createElement('button');
+        readBtn.textContent = `${book.read}`;
+        readBtn.id = `readRow-${index}`;
+        read.appendChild(readBtn);
+        readBtn.addEventListener('click', () => {
+            myLibrary[index].read = !myLibrary[index].read;
+            displayLibrary();
+        });
+
         const deleteRow = document.createElement('td');
-        deleteRow.innerHTML = `<button id='deleteRow'>Delete</button>`
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.id = `deleteRow-${index}`;
+        deleteRow.appendChild(deleteBtn);
+        deleteBtn.addEventListener('click', () => {
+            myLibrary.splice(index, 1);
+            displayLibrary();
+        })
 
         tr.appendChild(title);
         tr.appendChild(author);
@@ -67,25 +83,10 @@ function displayLibrary() {
     });
 }
 
-function deleteRow() {
-    const delArray = [...document.querySelectorAll('#deleteRow')];
-    delArray.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if(myLibrary.length === 1) {
-                myLibrary.pop();
-            } else {
-                myLibrary.splice(delArray.indexOf(btn), 1);
-            }
-            displayLibrary();
-        });
-    });
-}
-
 const form = document.querySelector('#add-book-form');
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     
     addBookToLibrary();
     displayLibrary();
-    deleteRow();
 })

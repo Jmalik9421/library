@@ -9,9 +9,6 @@ function Book(title, author, pages, read) {
 };
 
 function addBookToLibrary() {
-    // get book details from form
-    // create new Book object using above constructor
-    // push to myLibrary
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#author').value;
     const pages = document.querySelector('#pages').value;
@@ -23,10 +20,8 @@ function addBookToLibrary() {
 }
 
 function displayLibrary() {
-    // clear booklist 
     bookList.innerHTML = '';
 
-    // create table in dom
     const table = document.createElement('table');
     const trHead = document.createElement('tr');
 
@@ -49,7 +44,6 @@ function displayLibrary() {
     table.appendChild(trHead);
     bookList.appendChild(table);
 
-    // loop through each book object in library
     myLibrary.forEach(book => {
         const tr = document.createElement('tr');
 
@@ -61,18 +55,29 @@ function displayLibrary() {
         pages.textContent = `${book.pages}`;
         const read = document.createElement('td')
         read.textContent = `${book.read}`;
-        const deleteBody = document.createElement('td');
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = `delete`;
-
-        deleteBody.appendChild(deleteBtn);
+        const deleteRow = document.createElement('td');
+        deleteRow.innerHTML = `<button id='deleteRow'>Delete</button>`
 
         tr.appendChild(title);
         tr.appendChild(author);
         tr.appendChild(pages);
         tr.appendChild(read);
-        tr.appendChild(deleteBody);
+        tr.appendChild(deleteRow);
         table.appendChild(tr);
+    });
+}
+
+function deleteRow() {
+    const delArray = [...document.querySelectorAll('#deleteRow')];
+    delArray.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if(myLibrary.length === 1) {
+                myLibrary.pop();
+            } else {
+                myLibrary.splice(delArray.indexOf(btn), 1);
+            }
+            displayLibrary();
+        });
     });
 }
 
@@ -82,4 +87,5 @@ form.addEventListener('submit', (e) => {
     
     addBookToLibrary();
     displayLibrary();
+    deleteRow();
 })
